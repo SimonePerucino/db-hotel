@@ -22,8 +22,34 @@
     FROM `ospiti`
     WHERE name like "D%";
 
-5. Calcola il totale incassato degli ordini accepted
-6. Qual è il prezzo massimo pagato?
-7. Seleziona gli ospiti riconosciuti con patente e nati nel 1975
-8. Quanti paganti sono anche ospiti?
-9. Quanti posti letto ha l’hotel in totale
+-- 5. Calcola il totale incassato degli ordini accepted
+
+    SELECT SUM(`price`) 
+	FROM `pagamenti`
+	WHERE `status` = "accepted"
+
+-- 6. Qual è il prezzo massimo pagato?
+
+    SELECT MAX(`price`) as PrezzoPiuAlto
+	FROM `pagamenti`
+
+-- 7. Seleziona gli ospiti riconosciuti con patente e nati nel 1975
+
+    SELECT * 
+    FROM `ospiti`
+    WHERE YEAR(`date_of_birth`) = 1975
+    AND document_type = "Driver License"
+
+-- 8. Quanti paganti sono anche ospiti?
+
+    SELECT name, lastname, ospite_id AS clienti_paganti
+    FROM paganti
+    WHERE ospite_id IS NOT NUll;
+
+    SELECT COUNT(*) 
+    FROM paganti 
+    WHERE ospite_id IS NOT NULL;
+
+-- 9. Quanti posti letto ha l’hotel in totale
+    SELECT SUM(`beds`) 
+    FROM stanze
